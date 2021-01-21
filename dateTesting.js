@@ -1,12 +1,4 @@
 
-/*
-let d = new Date();
-console.log(d);
-d.setHours(d.getHours() + 5);
-console.log(d);
-*/
-
-
 String.prototype.hoursOrDays = function(){
     let str = this;
     if(str[str.length-1].toUpperCase() == 'D'){
@@ -95,7 +87,7 @@ Date.prototype.format = (function(str){
             }
         }
     }
-    let separators = searchPattern(str,/[\,/-\s]/, 'g');
+    let separators = searchPattern(str,/[:\,/-\s]/, 'g');
     let sizeSeparators = 0;
     if(separators != null){
         sizeSeparators = separators.length;
@@ -107,7 +99,7 @@ Date.prototype.format = (function(str){
   
     for(let i in arr){
         
-        if(arr[i].toUpperCase() == 'YYYY'){
+        if(arr[i].toUpperCase() == 'Y'){
             finalValue += date.getFullYear().toString();
         }
         else if(arr[i].toUpperCase() == 'YY'){
@@ -150,6 +142,10 @@ Date.prototype.format = (function(str){
                 finalValue += date.getHours();
             }
             addTime();
+            index++;
+            finalValue += ' ';
+            continue;
+
         }
         else if(arr[i] == 'HH' ){
             let hour = date.getHours();
@@ -166,13 +162,20 @@ Date.prototype.format = (function(str){
                 if(hour < 10){
                     hour = '0' + hour;
                 }
-                finalValue += date.getHours();
+                finalValue += hour;
             }
             addTime();
+            finalValue += ' ';
+            index++;
+            continue;
+
         }
         else if(arr[i].toUpperCase() != 'S' && arr[i].toUpperCase() != 'SS' && arr[i] != 'm' && arr[i] != 'mm' &&
             arr[i] != 'a' && arr[i] != 'A' && arr[i] != 'aa' && arr[i] != 'AA'){
             return new Error("Invalid Format");
+        }else{
+            index++;
+            continue;
         }
         if(index < sizeSeparators){
             finalValue += separators[index];
@@ -180,7 +183,7 @@ Date.prototype.format = (function(str){
         }
     }    
     
-    return finalValue;
+    return finalValue.trim();
     
 });
 
@@ -218,7 +221,10 @@ let t = new Date();
 let str = '55d';
 //console.log(str.hoursOrDays());
 //console.log(t.format("dd/YYYY-MMMM-MM HH:mm:SS aa"));
-//console.log(t.format("YYYY MM DD HH:mm:ss aa"));
+t.setHours(3);
+t.setMinutes(33);
+
+console.log(t.format("MMMM-Y DD"));
 //console.log(dateToString(t,'YY'));
 //console.log(add(t, '15d'));
 
