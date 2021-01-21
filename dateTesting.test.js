@@ -1,14 +1,14 @@
-const sum = require('./dateTesting');
+const myModule = require('./dateTesting.js');
 
+const dateToString = myModule.dateToString;
 
-
-
+let date = new Date();
 
 test('should return year only in YY format', () => {
-   
+    expect(dateToString(date, "YY")).toBe('21');
 });
 test('should return year only in YYYY format', () => {
-   
+    expect(dateToString(date, "YYYY")).toBe('2021');
 });
 test('should return Month only in M format', () => {
    
@@ -166,7 +166,6 @@ separators between Date and time:
 Date with time (Years, months, days, hours, minuets, seconds and meridiem): separator '-' ***
 Date with time (Years, months, days, hours, minuets, seconds and meridiem): separator ' ' ***
 Date with time (Years, months, days, hours, minuets, seconds and meridiem): separator '/' ***
-
 
 43 test cases
 */

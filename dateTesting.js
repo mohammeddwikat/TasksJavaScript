@@ -1,15 +1,4 @@
-/*
-const dateToString = (dateObj, format) => {
 
-}
-
-const stringToDate = (date, foramt) => {
-
-}
-
-const add = (dateStr, amount) => {
-
-}
 /*
 let d = new Date();
 console.log(d);
@@ -194,8 +183,43 @@ Date.prototype.format = (function(str){
     return finalValue;
     
 });
+
+const dateToString = (dateObj, formatStr) => {
+    return(dateObj.format(formatStr));
+}
+/*
+const stringToDate = (date, foramt) => {
+
+}
+*/
+const add = (date, amount) => {
+    let str; 
+    if(amount.hoursOrDays() == 'day'){
+        str = amount.slice(0, amount.length-1);
+        date.setDate(date.getDate() + parseInt(str));
+        return date;
+    }
+    else if(amount.hoursOrDays() == 'hour'){
+        str = amount.slice(0, amount.length-1);
+        date.setHours(date.getHours() + parseInt(str));
+        return date;
+    }
+    else{
+        return new Error("Invalid amount");
+    }
+}
+
+
+
+
+
+
 let t = new Date();
 let str = '55d';
 //console.log(str.hoursOrDays());
 //console.log(t.format("dd/YYYY-MMMM-MM HH:mm:SS aa"));
-console.log(t.format("YY HH aa"));
+//console.log(t.format("YYYY MM DD HH:mm:ss aa"));
+//console.log(dateToString(t,'YY'));
+//console.log(add(t, '15d'));
+
+module.exports = {dateToString, add};
