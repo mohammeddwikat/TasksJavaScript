@@ -1,6 +1,7 @@
 const myModule = require('./dateTesting.js');
 
 const dateToString = myModule.dateToString;
+const add = myModule.add;
 
 let date = new Date();
 
@@ -144,7 +145,20 @@ test('should return the full date and time with [/] separator between them', () 
     expect(dateToString(date, "MM/DD/Y/HH:mm:ss AA")).toBe('01/05/2021/01:09:05 PM');
 });
 
+let date2 = new Date("02/21/2021");
 
+test('should add days on the date object date2', () => {
+    expect(add(date2,"5d").getTime()).toBe(new Date("02/26/2021").getTime());
+});
+test('should add days on the date object date2', () => {
+    expect(add(date2, "5D").getTime()).toBe(new Date("03/03/2021").getTime());
+});
+test('should add days on the date object date2', () => {
+    expect(add(date2, "5H").getTime()).toBe(new Date("03/03/2021 05:00:00").getTime());
+});
+test('should add days on the date object date2', () => {
+    expect(add(date2, "10H").getTime()).toBe(new Date("03/03/2021 15:00:00").getTime());
+});
 
 /*
 npm -s run test
@@ -179,4 +193,9 @@ Date with time (Years, months, days, hours, minuets, seconds and meridiem): sepa
 Date with time (Years, months, days, hours, minuets, seconds and meridiem): separator '/' ***
 
 42 test cases
+------------------------------------------
+
+add function:
+add days when d small and capital letter : 2tc's
+add hour: 1tc's 
 */

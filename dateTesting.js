@@ -11,6 +11,105 @@ String.prototype.hoursOrDays = function(){
     }
 }
 
+String.prototype.formatDate = function(format){
+    let arrKeys = format.split(/[:/-\s]/);
+    let arrValues = this.split(/[:/-\s]/);
+    let MMM = ['Jan', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Aug', 'Seb', 'Oct', 'Nov', 'Dec'];
+    let MMMM = ['January', 'February', 'March', 'Abril', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    let date = this;
+    let ht = {
+        year: 1,
+        month: 1,
+        days: 1,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+    }
+    //console.log(arrKeys);
+    //console.log(arrValues);
+    for(let i in arrKeys){ 
+        if(arrKeys[i].toUpperCase() === "Y"){
+            ht.year = arrValues[i];
+        }else if(arrKeys[i].toUpperCase() === "YY"){
+            ht.year = arrValues[i];
+        }
+        else if(arrKeys[i] === 'M'){
+            ht.month = arrValues[i];
+        }
+        else if(arrKeys[i] === 'MM'){
+            ht.month = arrValues[i];
+        }
+        else if(arrKeys[i] === 'MMM'){
+            ht.month = MMM.indexOf(arrValues[i])+1;
+        }
+        else if(arrKeys[i] === 'MMMM'){
+            ht.month = MMMM.indexOf(arrValues[i])+1;
+        }
+        else if(arrKeys[i].toUpperCase() === 'D'){
+            ht.days = arrValues[i];
+        }
+        else if(arrKeys[i].toUpperCase() === 'DD'){
+            ht.days = arrValues[i];
+        }
+        else if(arrKeys[i] == 'H'){
+            ht.hours = arrValues[i];
+        }
+        else if(arrKeys[i] == 'HH'){
+            ht.hours = arrValues[i];
+        }
+        else if(arrKeys[i] == 'm'){
+            ht.minutes = arrValues[i]; 
+        }
+        else if(arrKeys[i] == 'mm'){
+            ht.minutes = arrValues[i]; 
+        }
+        else if(arrKeys[i].toUpperCase() === 'S'){
+            ht.seconds = arrValues[i];
+        }
+        else if(arrKeys[i].toUpperCase() === 'SS'){
+            ht.seconds = arrValues[i];
+        }
+        else if(arrKeys[i] === 'a'){
+            if(arrValues[i] == 'p' && ht.hours != 12){
+                ht.hours = parseInt(ht.hours) + 12;
+            }
+            else if(arrValues[i] == 'a' && ht.hours == 12){
+                ht.hours = 0;
+            }
+        }
+        else if(arrKeys[i] === 'A' ){
+            if(arrValues[i] == 'P' && ht.hours != 12){
+                ht.hours = parseInt(ht.hours) + 12;
+            }
+            else if(arrValues[i] == 'A' && ht.hours == 12){
+                ht.hours = 0;
+            }
+        }
+        else if(arrKeys[i] === 'aa'){
+            if(arrValues[i] == 'pm' && ht.hours != 12){
+                ht.hours = parseInt(ht.hours) + 12;
+            }
+            else if(arrValues[i] == 'am' && ht.hours == 12){
+                ht.hours = 0;
+            }
+        }
+        else if(arrKeys[i] === 'AA'){
+            if(arrValues[i] == 'PM' && ht.hours != 12){
+                ht.hours = parseInt(ht.hours) + 12;
+            }
+            else if(arrValues[i] == 'AM' && ht.hours == 12){
+                ht.hours = 0;
+            }
+        }
+        else{
+            return new Error("Invalid Input");
+        }
+    }
+    
+    
+    return ht.month + "/" + ht.days + "/" + ht.year + " " + ht.hours + ":" + ht.minutes + ":" + ht.seconds;
+}
+
 Date.prototype.format = (function(str){
     let MMM = ['Jan', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Aug', 'Seb', 'Oct', 'Nov', 'Dec'];
     let MMMM = ['January', 'February', 'March', 'Abril', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -190,11 +289,11 @@ Date.prototype.format = (function(str){
 const dateToString = (dateObj, formatStr) => {
     return(dateObj.format(formatStr));
 }
-/*
-const stringToDate = (date, foramt) => {
 
+const stringToDate = (date, foramt) => {
+    return new Date(date.formatDate(foramt));
 }
-*/
+
 const add = (date, amount) => {
     let str; 
     if(amount.hoursOrDays() == 'day'){
@@ -214,18 +313,4 @@ const add = (date, amount) => {
 
 
 
-
-
-
-let t = new Date();
-let str = '55d';
-//console.log(str.hoursOrDays());
-//console.log(t.format("dd/YYYY-MMMM-MM HH:mm:SS aa"));
-t.setHours(3);
-t.setMinutes(33);
-
-console.log(t.format("MMMM-Y DD"));
-//console.log(dateToString(t,'YY'));
-//console.log(add(t, '15d'));
-
-module.exports = {dateToString, add};
+module.exports = {dateToString, add, stringToDate};
