@@ -3,23 +3,23 @@ const { User } = require("./user.js");
 const readPlain = (file) => {
   const csv = require("csv-parser");
   const fs = require("fs");
-  let arr = [];
+  let arrOfUsers = [];
 
   fs.createReadStream(file)
     .pipe(csv())
     .on("data", (row) => {
-      let a = new User();
-      Object.assign(a, row);
-      arr.push(a);
+      let user = new User();
+      Object.assign(user, row);
+      arrOfUsers.push(user);
     })
     .on("end", () => {
-      saveToFile("saveToFile.json", arr);
+      saveToFile("saveToFile.json", arrOfUsers);
     });
 };
 
-const saveToFile = (file, arr) => {
+const saveToFile = (file, arrOfUsers) => {
   const fs = require("fs");
-  data = JSON.stringify(arr);
+  data = JSON.stringify(arrOfUsers);
   fs.writeFileSync(file, data);
 };
 

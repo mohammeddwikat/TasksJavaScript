@@ -1,21 +1,20 @@
 class User {
   constructor(
     id,
-    first_name,
-    last_name,
+    firstName,
+    lastName,
     email,
     gender,
-    ip_address,
+    ipAddress,
     color,
     parentId
   ) {
     this.id = id;
-    this.first_name = first_name;
-    this.last_name = last_name;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.email = email;
     this.gender = gender;
-    this.ip_address = ip_address;
-    this.ip_address = ip_address;
+    this.ipAddress = ipAddress;
     this.color = color;
     this.parentId = parentId;
   }
