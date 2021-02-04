@@ -1,22 +1,3 @@
-/*
-const dateToString = (dateObj, format) => {
-
-}
-
-const stringToDate = (date, foramt) => {
-
-}
-
-const add = (dateStr, amount) => {
-
-}
-/*
-let d = new Date();
-console.log(d);
-d.setHours(d.getHours() + 5);
-console.log(d);
-*/
-
 
 String.prototype.hoursOrDays = function(){
     let str = this;
@@ -106,7 +87,7 @@ Date.prototype.format = (function(str){
             }
         }
     }
-    let separators = searchPattern(str,/[\,/-\s]/, 'g');
+    let separators = searchPattern(str,/[:\,/-\s]/, 'g');
     let sizeSeparators = 0;
     if(separators != null){
         sizeSeparators = separators.length;
@@ -118,7 +99,7 @@ Date.prototype.format = (function(str){
   
     for(let i in arr){
         
-        if(arr[i].toUpperCase() == 'YYYY'){
+        if(arr[i].toUpperCase() == 'Y'){
             finalValue += date.getFullYear().toString();
         }
         else if(arr[i].toUpperCase() == 'YY'){
@@ -161,6 +142,10 @@ Date.prototype.format = (function(str){
                 finalValue += date.getHours();
             }
             addTime();
+            index++;
+            finalValue += ' ';
+            continue;
+
         }
         else if(arr[i] == 'HH' ){
             let hour = date.getHours();
@@ -177,13 +162,20 @@ Date.prototype.format = (function(str){
                 if(hour < 10){
                     hour = '0' + hour;
                 }
-                finalValue += date.getHours();
+                finalValue += hour;
             }
             addTime();
+            finalValue += ' ';
+            index++;
+            continue;
+
         }
         else if(arr[i].toUpperCase() != 'S' && arr[i].toUpperCase() != 'SS' && arr[i] != 'm' && arr[i] != 'mm' &&
             arr[i] != 'a' && arr[i] != 'A' && arr[i] != 'aa' && arr[i] != 'AA'){
             return new Error("Invalid Format");
+        }else{
+            index++;
+            continue;
         }
         if(index < sizeSeparators){
             finalValue += separators[index];
@@ -191,11 +183,49 @@ Date.prototype.format = (function(str){
         }
     }    
     
-    return finalValue;
+    return finalValue.trim();
     
 });
+
+const dateToString = (dateObj, formatStr) => {
+    return(dateObj.format(formatStr));
+}
+/*
+const stringToDate = (date, foramt) => {
+
+}
+*/
+const add = (date, amount) => {
+    let str; 
+    if(amount.hoursOrDays() == 'day'){
+        str = amount.slice(0, amount.length-1);
+        date.setDate(date.getDate() + parseInt(str));
+        return date;
+    }
+    else if(amount.hoursOrDays() == 'hour'){
+        str = amount.slice(0, amount.length-1);
+        date.setHours(date.getHours() + parseInt(str));
+        return date;
+    }
+    else{
+        return new Error("Invalid amount");
+    }
+}
+
+
+
+
+
+
 let t = new Date();
 let str = '55d';
 //console.log(str.hoursOrDays());
 //console.log(t.format("dd/YYYY-MMMM-MM HH:mm:SS aa"));
-console.log(t.format("YY HH aa"));
+t.setHours(3);
+t.setMinutes(33);
+
+console.log(t.format("MMMM-Y DD"));
+//console.log(dateToString(t,'YY'));
+//console.log(add(t, '15d'));
+
+module.exports = {dateToString, add};
